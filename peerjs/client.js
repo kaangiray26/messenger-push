@@ -7,6 +7,7 @@ class Client {
         this.token = token;
         this.socket = null;
         this.lastPing = new Date().getTime();
+        this.lastSeen = new Date().getTime();
     }
 
     close() {
@@ -34,13 +35,18 @@ class Client {
         return this.lastPing;
     }
 
+    getLastSeen() {
+        return this.lastSeen;
+    }
+
     setLastPing(lastPing) {
         this.lastPing = lastPing;
+        this.lastSeen = lastPing;
     }
 
     isAlive() {
         const nowTime = new Date().getTime();
-        return nowTime - this.lastPing < options.alive_timeout;
+        return (nowTime - this.lastPing) < options.alive_timeout;
     }
 }
 

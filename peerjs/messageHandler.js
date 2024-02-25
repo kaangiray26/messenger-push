@@ -33,12 +33,34 @@ class MessageHandler {
         }
     }
 
+
+    handleCheck(message) {
+        const { type, src, dst } = message;
+        const socket = this.realm.getClientById(src).getSocket();
+        const destinationClient = this.realm.getClientById(dst);
+
+        // Check if destinationClient is alive
+        if (destinationClient) {
+            socket.send(JSON.stringify({
+                'type': 'CHECK',
+                'peer': dst,
+                'online': destinationClient.isAlive(),
+                'last_seen': destinationClient.getLastSeen(),
+            }))
+            return
+        }
+    }
+
     handle(message) {
         // Switch on the message type
         switch (message.type) {
             // HEARTBEAT
             case 'HEARTBEAT':
                 this.handleHeartbeat(message);
+                break;
+            // CHECK
+            case 'CHECK':
+                this.handleCheck(message);
                 break;
             // OFFER
             case 'OFFER':

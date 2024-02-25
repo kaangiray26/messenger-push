@@ -88,7 +88,7 @@ class Push {
         }
 
         // Send message
-        console.log("Sending message...");
+        console.log("Sending push message...");
         const response = await fetch(this.endpoint + "messages:send", {
             method: 'POST',
             headers: {

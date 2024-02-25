@@ -7,8 +7,6 @@ import db from './db.js';
 import Client from './client.js';
 import Realm from './realm.js';
 import MessageHandler from './messageHandler.js';
-// import MessagesExpire from './messagesExpire.js';
-// import CheckBrokenConnections from './checkBrokenConnections.js';
 
 // Options
 const options = {
@@ -91,8 +89,6 @@ const server = createServer((req, res) => {
 // Services
 const realm = new Realm();
 const messageHandler = new MessageHandler(realm, push);
-// const messagesExpire = new MessagesExpire(realm, options, messageHandler);
-// const checkBrokenConnections = new CheckBrokenConnections(realm, options);
 
 // WebSockets
 const wss = new WebSocketServer({
@@ -125,7 +121,7 @@ wss.on('connection', async (ws, req) => {
     }
 
     // Create new client if it doesn't exist
-    console.log("New connection:", id);
+    // console.log("New connection:", id);
     const client = new Client(id, key);
 
     // Send open message
@@ -141,7 +137,7 @@ wss.on('connection', async (ws, req) => {
     });
 
     ws.on('close', () => {
-        console.log("Connection closed:", id);
+        // console.log("Connection closed:", id);
         client.close();
     })
 
